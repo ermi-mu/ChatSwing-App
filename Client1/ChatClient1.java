@@ -1,8 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.net.*;
+import javax.swing.*;
 
 public class ChatClient1 extends JFrame {
 
@@ -38,5 +37,38 @@ public class ChatClient1 extends JFrame {
         setVisible(true);
     }
 
-   
+    private void connectToServer() {
+        try {
+            Socket socket = new Socket("localhost", 5000);
+            writer = new PrintWriter(socket.getOutputStream(), true);
+
+            // receive messages
+            new Thread(() -> {
+                try {
+                    BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(socket.getInputStream())
+                    );
+                    String msg;
+                    while ((msg = reader.readLine()) != null) {
+                        chatArea.append(msg + "\n");
+                    }
+                } catch (Exception ignored) {}
+            }).start();
+
+        } catch (Exception e) {
+            chatArea.append("Unable to connect to server.\n");
+        }
+    }
+
+    private void sendMessage() {
+        String msg = inputField.getText().trim();
+        if (!msg.isEmpty()) {
+            writer.println(getTitle() + ": " + msg);
+            inputField.setText("");
+        }
+    }
+
+    public static void main(String[] args) {
+        new ChatClient1("Client 1");
+    }
 }
