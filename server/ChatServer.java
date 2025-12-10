@@ -28,7 +28,8 @@ public class ChatServer {
 
             String message;
             while ((message = reader.readLine()) != null) {
-                broadcast(message);
+                // ❗ EXCLUDE SENDER
+                broadcast(message, writer);
             }
 
         } catch (Exception e) {
@@ -38,9 +39,12 @@ public class ChatServer {
         }
     }
 
-    private static void broadcast(String message) {
+    // ❗ FIXED BROADCAST
+    private static void broadcast(String message, PrintWriter sender) {
         for (PrintWriter writer : clientWriters) {
-            writer.println(message);
+            if (writer != sender) { // exclude sender
+                writer.println(message);
+            }
         }
     }
 }
