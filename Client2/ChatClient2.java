@@ -4,13 +4,13 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 
-public class ChatClient1 extends JFrame {
+public class ChatClient2 extends JFrame {
 
     private JTextArea chatArea;
     private JTextField inputField;
     private PrintWriter writer;
 
-    public ChatClient1(String clientName) {
+    public ChatClient2(String clientName) {
         setTitle(clientName);
         setSize(400, 550);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,6 +70,6 @@ public class ChatClient1 extends JFrame {
     }
 
     public static void main(String[] args) {
-        new ChatClient1("Client 2");
+        new ChatClient2("Client 2");
     }
 }
